@@ -100,8 +100,8 @@ class PitchSession {
 /// 閾値の評価コメント。一般の弁別限界は 10-25 セント、音楽家は 5-10 と言われる。
 String pitchRating(double cents) {
   if (cents < 5) return '超人級。調律師の耳です';
-  if (cents < 10) return '音楽家級。訓練された耳に匹敵します';
+  if (cents < 10) return '音楽家級。鋭い耳の持ち主です';
   if (cents < 25) return '良好。標準的な音感です';
-  if (cents < 60) return 'のびしろあり。訓練で狭くなっていきます';
-  return 'まずは大きな差から慣れていきましょう (半音 = 100 セント)';
+  if (cents < 60) return 'のびしろあり。また挑戦してみよう';
+  return 'まずは大きな差から楽しもう (半音 = 100 セント)';
 }

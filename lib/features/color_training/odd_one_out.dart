@@ -142,6 +142,6 @@ String thresholdRating(double deltaE) {
   if (deltaE < 0.8) return '超人級。一般に ΔE 1.0 が識別限界と言われる領域を下回っています';
   if (deltaE < 1.5) return 'かなり鋭い。プロの現場でも通用する識別力です';
   if (deltaE < 3.0) return '良好。日常で困らない標準的な識別力です';
-  if (deltaE < 6.0) return 'のびしろあり。訓練で狭くなっていきます';
-  return 'まずは大きな差から慣れていきましょう';
+  if (deltaE < 6.0) return 'のびしろあり。また挑戦してみよう';
+  return 'まずは大きな差から楽しもう';
 }

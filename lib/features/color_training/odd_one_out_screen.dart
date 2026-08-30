@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../common/training_widgets.dart';
 import 'odd_one_out.dart';
 
-/// 色のトレーニング: 1つだけ違う色を探す (Issue #1)。
+/// 色くらべ: 1つだけ違う色を探す (Issue #1)。
 class OddOneOutScreen extends StatefulWidget {
   const OddOneOutScreen({super.key});
 
@@ -33,11 +33,11 @@ class _OddOneOutScreenState extends State<OddOneOutScreen> {
     final theme = Theme.of(context);
     final trial = session.trial;
     return Scaffold(
-      appBar: AppBar(title: const Text('色のトレーニング')),
+      appBar: AppBar(title: const Text('色くらべ')),
       body: SafeArea(
         child: trial == null
             ? TrainingResultView(
-                title: 'あなたの識別閾値',
+                title: '見分けられた最小の差',
                 valueText: 'ΔE ${session.threshold.toStringAsFixed(1)}',
                 rating: thresholdRating(session.threshold),
                 correctCount: session.correctCount,

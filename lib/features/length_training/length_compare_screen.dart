@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../common/training_widgets.dart';
 import 'length_compare.dart';
 
-/// 長さのトレーニング: どちらが長いか (Issue #2)。
+/// 長さくらべ: どちらが長いか (Issue #2)。
 class LengthCompareScreen extends StatefulWidget {
   const LengthCompareScreen({super.key});
 
@@ -41,7 +41,7 @@ class _LengthCompareScreenState extends State<LengthCompareScreen> {
     final theme = Theme.of(context);
     final trial = session.trial;
     return Scaffold(
-      appBar: AppBar(title: const Text('長さのトレーニング')),
+      appBar: AppBar(title: const Text('長さくらべ')),
       body: SafeArea(
         child: trial == null
             ? TrainingResultView(

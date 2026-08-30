@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../common/training_widgets.dart';
 import 'area_compare.dart';
 
-/// 面積のトレーニング: どちらが広いか (Issue #3)。
+/// 面積くらべ: どちらが広いか (Issue #3)。
 class AreaCompareScreen extends StatefulWidget {
   const AreaCompareScreen({super.key});
 
@@ -41,7 +41,7 @@ class _AreaCompareScreenState extends State<AreaCompareScreen> {
     final theme = Theme.of(context);
     final trial = session.trial;
     return Scaffold(
-      appBar: AppBar(title: const Text('面積のトレーニング')),
+      appBar: AppBar(title: const Text('面積くらべ')),
       body: SafeArea(
         child: trial == null
             ? TrainingResultView(

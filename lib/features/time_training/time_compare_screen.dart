@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../common/training_widgets.dart';
 import 'time_compare.dart';
 
-/// 時間感覚のトレーニング: どちらが長かったか (Issue #8)。
+/// 時間くらべ: どちらが長かったか (Issue #8)。
 class TimeCompareScreen extends StatefulWidget {
   const TimeCompareScreen({super.key});
 
@@ -68,7 +68,7 @@ class _TimeCompareScreenState extends State<TimeCompareScreen> {
     final theme = Theme.of(context);
     final trial = session.trial;
     return Scaffold(
-      appBar: AppBar(title: const Text('時間感覚のトレーニング')),
+      appBar: AppBar(title: const Text('時間くらべ')),
       body: SafeArea(
         child: trial == null
             ? TrainingResultView(

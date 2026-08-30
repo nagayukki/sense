@@ -112,6 +112,6 @@ String areaRating(double percent) {
   if (percent < 4.0) return '超人級。面積を数字のように読めています';
   if (percent < 8.0) return 'かなり鋭い。一般的な弁別限界を下回っています';
   if (percent < 15.0) return '良好。標準的な識別力です';
-  if (percent < 30.0) return 'のびしろあり。訓練で狭くなっていきます';
-  return 'まずは大きな差から慣れていきましょう';
+  if (percent < 30.0) return 'のびしろあり。また挑戦してみよう';
+  return 'まずは大きな差から楽しもう';
 }

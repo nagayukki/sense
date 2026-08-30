@@ -159,6 +159,6 @@ String numerosityRating(double percent) {
   if (percent < 10) return '超人級。数えずに数が見えています';
   if (percent < 15) return 'かなり鋭い。一般的な弁別限界を下回っています';
   if (percent < 25) return '良好。標準的な数量感覚です';
-  if (percent < 45) return 'のびしろあり。訓練で狭くなっていきます';
-  return 'まずは大きな差から慣れていきましょう';
+  if (percent < 45) return 'のびしろあり。また挑戦してみよう';
+  return 'まずは大きな差から楽しもう';
 }

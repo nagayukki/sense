@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../common/training_widgets.dart';
 import 'angle_compare.dart';
 
-/// 角度のトレーニング: どちらが開いているか (Issue #4)。
+/// 角度くらべ: どちらが開いているか (Issue #4)。
 class AngleCompareScreen extends StatefulWidget {
   const AngleCompareScreen({super.key});
 
@@ -41,7 +41,7 @@ class _AngleCompareScreenState extends State<AngleCompareScreen> {
     final theme = Theme.of(context);
     final trial = session.trial;
     return Scaffold(
-      appBar: AppBar(title: const Text('角度のトレーニング')),
+      appBar: AppBar(title: const Text('角度くらべ')),
       body: SafeArea(
         child: trial == null
             ? TrainingResultView(

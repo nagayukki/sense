@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../common/training_widgets.dart';
 import 'numerosity_compare.dart';
 
-/// 数量感覚のトレーニング: どちらが多いか (Issue #9)。
+/// かずくらべ: どちらが多いか (Issue #9)。
 class NumerosityCompareScreen extends StatefulWidget {
   const NumerosityCompareScreen({super.key});
 
@@ -55,7 +55,7 @@ class _NumerosityCompareScreenState extends State<NumerosityCompareScreen> {
     final theme = Theme.of(context);
     final trial = session.trial;
     return Scaffold(
-      appBar: AppBar(title: const Text('数量感覚のトレーニング')),
+      appBar: AppBar(title: const Text('かずくらべ')),
       body: SafeArea(
         child: trial == null
             ? TrainingResultView(

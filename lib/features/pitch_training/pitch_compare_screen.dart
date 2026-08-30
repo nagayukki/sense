@@ -5,7 +5,7 @@ import '../../core/audio/tone_synth.dart';
 import '../common/training_widgets.dart';
 import 'pitch_compare.dart';
 
-/// 音の高さのトレーニング: どちらが高いか (Issue #6)。
+/// 音の高さくらべ: どちらが高いか (Issue #6)。
 class PitchCompareScreen extends StatefulWidget {
   const PitchCompareScreen({super.key});
 
@@ -72,7 +72,7 @@ class _PitchCompareScreenState extends State<PitchCompareScreen> {
   Widget build(BuildContext context) {
     final trial = session.trial;
     return Scaffold(
-      appBar: AppBar(title: const Text('音の高さのトレーニング')),
+      appBar: AppBar(title: const Text('音の高さくらべ')),
       body: SafeArea(
         child: trial == null
             ? TrainingResultView(

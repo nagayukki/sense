@@ -95,6 +95,6 @@ String lengthRating(double percent) {
   if (percent < 1.5) return '超人級。定規いらずの精度です';
   if (percent < 3.0) return 'かなり鋭い。一般的な弁別限界を下回っています';
   if (percent < 6.0) return '良好。標準的な識別力です';
-  if (percent < 12.0) return 'のびしろあり。訓練で狭くなっていきます';
-  return 'まずは大きな差から慣れていきましょう';
+  if (percent < 12.0) return 'のびしろあり。また挑戦してみよう';
+  return 'まずは大きな差から楽しもう';
 }

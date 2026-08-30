@@ -82,7 +82,7 @@ String noteQuizRating(int correct, int total) {
   final rate = correct / total;
   if (rate >= 0.95) return '絶対音感の持ち主かもしれません';
   if (rate >= 0.7) return 'かなり正確。基準音の記憶が効いています';
-  if (rate >= 0.4) return '育ってきています。基準のラ (440Hz) と比べる癖をつけると伸びます';
-  if (rate > 1 / 12) return 'まずは基準のラを何度も聞いて覚えるところから';
+  if (rate >= 0.4) return '育ってきています。基準のラ (440Hz) と聞き比べてみよう';
+  if (rate > 1 / 12) return 'まずは基準のラを何度も聞いてみよう';
   return '当てずっぽうと同じくらい。伸びしろしかありません';
 }

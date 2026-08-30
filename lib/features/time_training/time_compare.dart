@@ -80,6 +80,6 @@ String timeRating(double percent) {
   if (percent < 5) return '超人級。体内時計が正確すぎます';
   if (percent < 10) return 'かなり鋭い。一般的な弁別限界を下回っています';
   if (percent < 20) return '良好。標準的な時間感覚です';
-  if (percent < 40) return 'のびしろあり。訓練で狭くなっていきます';
-  return 'まずは大きな差から慣れていきましょう';
+  if (percent < 40) return 'のびしろあり。また挑戦してみよう';
+  return 'まずは大きな差から楽しもう';
 }

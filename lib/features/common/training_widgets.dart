@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// トレーニング共通: 進捗ヘッダ (n/N、直前の正誤、プログレスバー)。
+/// あそび共通: 進捗ヘッダ (n/N、直前の正誤、プログレスバー)。
 class TrainingProgressHeader extends StatelessWidget {
   const TrainingProgressHeader({
     super.key,
@@ -45,7 +45,7 @@ class TrainingProgressHeader extends StatelessWidget {
   }
 }
 
-/// トレーニング共通: 結果画面 (閾値、評価、正解数、リスタート)。
+/// あそび共通: 結果画面 (閾値、評価、正解数、リスタート)。
 class TrainingResultView extends StatelessWidget {
   const TrainingResultView({
     super.key,
@@ -102,7 +102,7 @@ class TrainingResultView extends StatelessWidget {
   }
 }
 
-/// トレーニング共通: A/B 選択カード。中身は [child] で描く。
+/// あそび共通: A/B 選択カード。中身は [child] で描く。
 class ChoiceCard extends StatelessWidget {
   const ChoiceCard({
     super.key,

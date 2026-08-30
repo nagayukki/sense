@@ -92,6 +92,6 @@ String angleRating(double degrees) {
   if (degrees < 1.0) return '超人級。分度器いらずの精度です';
   if (degrees < 2.5) return 'かなり鋭い。図面を目で読めるレベルです';
   if (degrees < 5.0) return '良好。標準的な識別力です';
-  if (degrees < 10.0) return 'のびしろあり。訓練で狭くなっていきます';
-  return 'まずは大きな差から慣れていきましょう';
+  if (degrees < 10.0) return 'のびしろあり。また挑戦してみよう';
+  return 'まずは大きな差から楽しもう';
 }
