@@ -6,6 +6,7 @@ import 'color_training/odd_one_out_screen.dart';
 import 'color_zoom/color_zoom_screen.dart';
 import 'length_training/length_compare_screen.dart';
 import 'pitch_training/pitch_compare_screen.dart';
+import 'note_quiz/note_quiz_screen.dart';
 import 'numerosity_training/numerosity_compare_screen.dart';
 import 'placeholder/placeholder_screen.dart';
 import 'time_training/time_compare_screen.dart';
@@ -85,6 +86,7 @@ const features = [
     subtitle: 'この音はドレミのどれ?',
     icon: Icons.piano_outlined,
     issueNumber: 7,
+    builder: _noteQuiz,
   ),
   Feature(
     title: '時間感覚のトレーニング',
@@ -118,3 +120,5 @@ Widget _timeCompare(BuildContext context) => const TimeCompareScreen();
 
 Widget _numerosityCompare(BuildContext context) =>
     const NumerosityCompareScreen();
+
+Widget _noteQuiz(BuildContext context) => const NoteQuizScreen();
