@@ -1,0 +1,67 @@
+import 'package:flutter/material.dart';
+
+import 'color_zoom/color_zoom_screen.dart';
+import 'placeholder/placeholder_screen.dart';
+
+/// ホームに並ぶ機能の定義。追加する機能はここに足す。
+class Feature {
+  const Feature({
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.issueNumber,
+    this.builder,
+  });
+
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final int issueNumber;
+
+  /// null の場合は未実装 (プレースホルダ画面を開く)。
+  final WidgetBuilder? builder;
+
+  bool get isImplemented => builder != null;
+
+  Widget buildScreen(BuildContext context) {
+    final builder = this.builder;
+    if (builder != null) return builder(context);
+    return PlaceholderScreen(feature: this);
+  }
+}
+
+const features = [
+  Feature(
+    title: '色見本',
+    subtitle: 'タップで広がる 1,677万色',
+    icon: Icons.palette_outlined,
+    issueNumber: 5,
+    builder: _colorZoom,
+  ),
+  Feature(
+    title: '色のトレーニング',
+    subtitle: '微妙な色の違いを見分ける',
+    icon: Icons.colorize_outlined,
+    issueNumber: 1,
+  ),
+  Feature(
+    title: '長さのトレーニング',
+    subtitle: '目測で長さを言い当てる',
+    icon: Icons.straighten_outlined,
+    issueNumber: 2,
+  ),
+  Feature(
+    title: '面積のトレーニング',
+    subtitle: '広さの違いを見分ける',
+    icon: Icons.crop_square_outlined,
+    issueNumber: 3,
+  ),
+  Feature(
+    title: '角度のトレーニング',
+    subtitle: '角度を目で読む',
+    icon: Icons.architecture_outlined,
+    issueNumber: 4,
+  ),
+];
+
+Widget _colorZoom(BuildContext context) => const ColorZoomScreen();

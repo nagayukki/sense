@@ -3,3 +3,19 @@
 
 # Claude Code (ローカル専用設定)
 .claude/settings.local.json
+
+# FVM Version Cache
+.fvm/
+# Flutter/Dart
+.dart_tool/
+.packages
+build/
+*.iml
+.idea/
+
+# iOS/Android generated
+ios/Flutter/ephemeral/
+ios/Pods/
+ios/.symlinks/
+android/.gradle/
+android/local.properties
