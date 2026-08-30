@@ -9,6 +9,8 @@ import 'pitch_training/pitch_compare_screen.dart';
 import 'note_quiz/note_quiz_screen.dart';
 import 'numerosity_training/numerosity_compare_screen.dart';
 import 'placeholder/placeholder_screen.dart';
+import 'rhythm_keep/rhythm_keep_screen.dart';
+import 'tempo_training/tempo_compare_screen.dart';
 import 'time_training/time_compare_screen.dart';
 
 /// ホームに並ぶ機能の定義。追加する機能はここに足す。
@@ -89,6 +91,20 @@ const features = [
     builder: _noteQuiz,
   ),
   Feature(
+    title: 'テンポくらべ',
+    subtitle: 'どっちが速い?',
+    icon: Icons.speed_outlined,
+    issueNumber: 11,
+    builder: _tempoCompare,
+  ),
+  Feature(
+    title: 'リズムキープ',
+    subtitle: '音が消えてもテンポを保てる?',
+    icon: Icons.touch_app_outlined,
+    issueNumber: 11,
+    builder: _rhythmKeep,
+  ),
+  Feature(
     title: '時間くらべ',
     subtitle: 'どっちが長かった?',
     icon: Icons.timer_outlined,
@@ -122,3 +138,7 @@ Widget _numerosityCompare(BuildContext context) =>
     const NumerosityCompareScreen();
 
 Widget _noteQuiz(BuildContext context) => const NoteQuizScreen();
+
+Widget _tempoCompare(BuildContext context) => const TempoCompareScreen();
+
+Widget _rhythmKeep(BuildContext context) => const RhythmKeepScreen();
