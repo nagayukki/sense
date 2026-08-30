@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'color_training/odd_one_out_screen.dart';
 import 'color_zoom/color_zoom_screen.dart';
+import 'length_training/length_compare_screen.dart';
 import 'placeholder/placeholder_screen.dart';
 
 /// ホームに並ぶ機能の定義。追加する機能はここに足す。
@@ -48,9 +49,10 @@ const features = [
   ),
   Feature(
     title: '長さのトレーニング',
-    subtitle: '目測で長さを言い当てる',
+    subtitle: 'どちらが長いかを見抜く',
     icon: Icons.straighten_outlined,
     issueNumber: 2,
+    builder: _lengthCompare,
   ),
   Feature(
     title: '面積のトレーニング',
@@ -69,3 +71,5 @@ const features = [
 Widget _colorZoom(BuildContext context) => const ColorZoomScreen();
 
 Widget _oddOneOut(BuildContext context) => const OddOneOutScreen();
+
+Widget _lengthCompare(BuildContext context) => const LengthCompareScreen();
