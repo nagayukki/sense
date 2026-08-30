@@ -5,6 +5,7 @@ import 'area_training/area_compare_screen.dart';
 import 'color_training/odd_one_out_screen.dart';
 import 'color_zoom/color_zoom_screen.dart';
 import 'length_training/length_compare_screen.dart';
+import 'pitch_training/pitch_compare_screen.dart';
 import 'placeholder/placeholder_screen.dart';
 
 /// ホームに並ぶ機能の定義。追加する機能はここに足す。
@@ -70,6 +71,31 @@ const features = [
     issueNumber: 4,
     builder: _angleCompare,
   ),
+  Feature(
+    title: '音の高さのトレーニング',
+    subtitle: '音色が違っても高さで比べる',
+    icon: Icons.music_note_outlined,
+    issueNumber: 6,
+    builder: _pitchCompare,
+  ),
+  Feature(
+    title: '音名当て',
+    subtitle: 'この音はドレミのどれ?',
+    icon: Icons.piano_outlined,
+    issueNumber: 7,
+  ),
+  Feature(
+    title: '時間感覚のトレーニング',
+    subtitle: 'どちらが長かったかを見抜く',
+    icon: Icons.timer_outlined,
+    issueNumber: 8,
+  ),
+  Feature(
+    title: '数量感覚のトレーニング',
+    subtitle: 'どちらが多いかを一瞬で',
+    icon: Icons.grain_outlined,
+    issueNumber: 9,
+  ),
 ];
 
 Widget _colorZoom(BuildContext context) => const ColorZoomScreen();
@@ -81,3 +107,5 @@ Widget _lengthCompare(BuildContext context) => const LengthCompareScreen();
 Widget _areaCompare(BuildContext context) => const AreaCompareScreen();
 
 Widget _angleCompare(BuildContext context) => const AngleCompareScreen();
+
+Widget _pitchCompare(BuildContext context) => const PitchCompareScreen();
