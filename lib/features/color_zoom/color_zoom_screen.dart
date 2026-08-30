@@ -166,10 +166,12 @@ class _Slice extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 for (var gi = 0; gi < d; gi++)
                   Expanded(
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         for (var ri = 0; ri < d; ri++)
                           Expanded(
