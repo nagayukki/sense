@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'angle_training/angle_compare_screen.dart';
 import 'area_training/area_compare_screen.dart';
+import 'color_maker/color_maker_screen.dart';
 import 'color_memory/color_memory_screen.dart';
 import 'color_training/odd_one_out_screen.dart';
 import 'color_zoom/color_zoom_screen.dart';
@@ -78,6 +79,14 @@ const features = [
     icon: Icons.visibility_outlined,
     issueNumber: 13,
     builder: _colorMemory,
+  ),
+  Feature(
+    title: '色をつくる',
+    category: FeatureCategory.visual,
+    subtitle: '見本の色をスライダーで再現',
+    icon: Icons.tune_outlined,
+    issueNumber: 14,
+    builder: _colorMaker,
   ),
   Feature(
     title: '長さくらべ',
@@ -158,6 +167,8 @@ Widget _colorZoom(BuildContext context) => const ColorZoomScreen();
 Widget _oddOneOut(BuildContext context) => const OddOneOutScreen();
 
 Widget _colorMemory(BuildContext context) => const ColorMemoryScreen();
+
+Widget _colorMaker(BuildContext context) => const ColorMakerScreen();
 
 Widget _lengthCompare(BuildContext context) => const LengthCompareScreen();
 
