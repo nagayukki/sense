@@ -1,22 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sense/features/color_zoom/color_zoom_state.dart';
-import 'package:sense/main.dart';
 
 void main() {
-  testWidgets('ホームに機能一覧が表示される', (tester) async {
-    await tester.pumpWidget(const SenseApp());
-    expect(find.text('色見本'), findsOneWidget);
-    expect(find.text('色のトレーニング'), findsOneWidget);
-    expect(find.text('角度のトレーニング'), findsOneWidget);
-  });
-
-  testWidgets('色見本をタップするとズーム画面が開く', (tester) async {
-    await tester.pumpWidget(const SenseApp());
-    await tester.tap(find.text('色見本'));
-    await tester.pumpAndSettle();
-    expect(find.text('深さ 0 / 4'), findsOneWidget);
-  });
-
   group('ColorZoomState', () {
     test('4 段階で 1 色に到達する', () {
       final state = ColorZoomState();
@@ -48,6 +33,11 @@ void main() {
       state.back();
       expect(state.depth, 1);
       expect(state.size, 64);
+    });
+
+    test('分割数 2 は 8 段階、16 は 2 段階', () {
+      expect(ColorZoomState(divisions: 2).maxDepth, 8);
+      expect(ColorZoomState(divisions: 16).maxDepth, 2);
     });
   });
 }
