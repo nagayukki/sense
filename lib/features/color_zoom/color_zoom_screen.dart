@@ -62,15 +62,17 @@ class _ColorZoomScreenState extends State<ColorZoomScreen> {
                       ),
                     ),
             ),
-            if (finalColor == null)
+            if (finalColor == null) ...[
+              _CenterInfo(state: state),
               Padding(
-                padding: const EdgeInsets.only(bottom: 12),
+                padding: const EdgeInsets.only(top: 4, bottom: 12),
                 child: Text(
                   'タップして潜っていく',
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodySmall,
                 ),
               ),
+            ],
           ],
         ),
       ),
@@ -157,39 +159,147 @@ class _Slice extends StatelessWidget {
   final int blueIndex;
   final void Function(int ri, int gi) onTap;
 
+  /// タイルの小立方体に含まれる色名 (ランドマーク)。深さ1以降で表示。
+  String? _labelFor(int ri, int gi) {
+    if (state.depth < 1) return null;
+    final (r, g, b) = state.origin;
+    final step = state.size ~/ state.divisions;
+    final names = namedColorsInCube(
+      r: r + ri * step,
+      g: g + gi * step,
+      b: b + blueIndex * step,
+      size: step,
+    );
+    if (names.isEmpty) return null;
+    return names.first.name;
+  }
+
   @override
   Widget build(BuildContext context) {
     final d = state.divisions;
-    return Column(
-      children: [
-        Expanded(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                for (var gi = 0; gi < d; gi++)
-                  Expanded(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        for (var ri = 0; ri < d; ri++)
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: () => onTap(ri, gi),
-                              child: ColoredBox(
-                                color: state.tileColor(ri, gi, blueIndex),
-                              ),
-                            ),
-                          ),
-                      ],
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (var gi = 0; gi < d; gi++)
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  for (var ri = 0; ri < d; ri++)
+                    Expanded(
+                      child: _Tile(
+                        color: state.tileColor(ri, gi, blueIndex),
+                        label: _labelFor(ri, gi),
+                        onTap: () => onTap(ri, gi),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Tile extends StatelessWidget {
+  const _Tile({
+    required this.color,
+    required this.label,
+    required this.onTap,
+  });
+
+  final Color color;
+  final String? label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final label = this.label;
+    final luma = 0.299 * color.r + 0.587 * color.g + 0.114 * color.b;
+    return GestureDetector(
+      onTap: onTap,
+      child: ColoredBox(
+        color: color,
+        child: label == null
+            ? null
+            : Align(
+                alignment: Alignment.bottomLeft,
+                child: Padding(
+                  padding: const EdgeInsets.all(2),
+                  child: Text(
+                    label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 9,
+                      color: luma > 0.5 ? Colors.black87 : Colors.white,
                     ),
                   ),
-              ],
+                ),
+              ),
+      ),
+    );
+  }
+}
+
+/// 現在の領域の代表色 (中心) の情報。RGB と近い色名を常時見せる。
+class _CenterInfo extends StatelessWidget {
+  const _CenterInfo({required this.state});
+
+  final ColorZoomState state;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final center = state.centerColor;
+    final r = (center.r * 255).round();
+    final g = (center.g * 255).round();
+    final b = (center.b * 255).round();
+    final hex = '#'
+            '${r.toRadixString(16).padLeft(2, '0')}'
+            '${g.toRadixString(16).padLeft(2, '0')}'
+            '${b.toRadixString(16).padLeft(2, '0')}'
+        .toUpperCase();
+    final names = nearestNames(center, count: 2);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
+      child: Row(
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: center,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: theme.colorScheme.outlineVariant),
             ),
           ),
-        ),
-      ],
+          const SizedBox(width: 12),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('このあたり $hex',
+                  style: theme.textTheme.titleSmall),
+              Text('R $r · G $g · B $b',
+                  style: theme.textTheme.bodySmall),
+            ],
+          ),
+          const Spacer(),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              for (final n in names)
+                Text(
+                  '${n.color.name}  ΔE ${n.deltaE.toStringAsFixed(1)}',
+                  style: theme.textTheme.bodySmall,
+                ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

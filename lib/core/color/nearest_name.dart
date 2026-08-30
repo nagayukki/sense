@@ -31,3 +31,21 @@ List<NearestName> nearestNames(Color color, {int count = 3}) {
   ]..sort((a, b) => a.deltaE.compareTo(b.deltaE));
   return results.take(count).toList();
 }
+
+/// RGB の小立方体 (origin から一辺 size) に含まれる色名。
+List<NamedColor> namedColorsInCube({
+  required int r,
+  required int g,
+  required int b,
+  required int size,
+}) =>
+    [
+      for (final n in namedColors)
+        if (n.r >= r &&
+            n.r < r + size &&
+            n.g >= g &&
+            n.g < g + size &&
+            n.b >= b &&
+            n.b < b + size)
+          n,
+    ];

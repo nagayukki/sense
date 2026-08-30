@@ -58,6 +58,13 @@ class ColorZoomState {
     return step * step * step;
   }
 
+  /// 現在の領域の代表色 (中心)。
+  Color get centerColor {
+    final (r, g, b) = origin;
+    final half = size ~/ 2;
+    return Color.fromARGB(255, r + half, g + half, b + half);
+  }
+
   /// 到達した最終色 (size == 1 のときのみ)。
   Color? get finalColor {
     if (size != 1) return null;
