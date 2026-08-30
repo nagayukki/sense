@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import '../../core/color/ciede2000.dart';
+import '../../core/color/color_gen.dart';
 import '../../core/color/lab.dart';
 import '../../core/training/staircase.dart';
 
@@ -30,52 +31,21 @@ OddOneOutTrial generateTrial({
 }) {
   final rng = random ?? Random();
   for (var attempt = 0; attempt < 100; attempt++) {
-    // 端に寄りすぎない基準色 (色域内で動かす余地を残す)
-    final base = Color.fromARGB(
-      255,
-      40 + rng.nextInt(176),
-      40 + rng.nextInt(176),
-      40 + rng.nextInt(176),
-    );
-    final baseLab = srgbToLab(
-      (base.r * 255).round(),
-      (base.g * 255).round(),
-      (base.b * 255).round(),
-    );
-
-    // Lab 空間のランダムな方向に、ΔE00 が目標値になる距離を二分探索
-    final theta = rng.nextDouble() * 2 * pi;
-    final lSign = rng.nextBool() ? 1.0 : -1.0;
-    Lab at(double t) => Lab(
-          baseLab.l + lSign * t * 0.4,
-          baseLab.a + cos(theta) * t,
-          baseLab.b + sin(theta) * t,
-        );
-
-    var lo = 0.0, hi = 60.0;
-    if (ciede2000(baseLab, at(hi)) < deltaE) continue;
-    for (var i = 0; i < 40; i++) {
-      final mid = (lo + hi) / 2;
-      if (ciede2000(baseLab, at(mid)) < deltaE) {
-        lo = mid;
-      } else {
-        hi = mid;
-      }
-    }
-    final odd = labToSrgb(at(hi));
+    final base = randomBaseColor(rng);
+    final odd = colorAtDeltaE(base, deltaE, rng);
     if (odd == null) continue;
-
     final actual = ciede2000(
-      baseLab,
+      srgbToLab(
+        (base.r * 255).round(),
+        (base.g * 255).round(),
+        (base.b * 255).round(),
+      ),
       srgbToLab(
         (odd.r * 255).round(),
         (odd.g * 255).round(),
         (odd.b * 255).round(),
       ),
     );
-    // 8bit 量子化で目標からずれすぎた問題は捨てる
-    if ((actual - deltaE).abs() > deltaE * 0.25 + 0.15) continue;
-
     return OddOneOutTrial(
       baseColor: base,
       oddColor: odd,

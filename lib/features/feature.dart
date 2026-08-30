@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'angle_training/angle_compare_screen.dart';
 import 'area_training/area_compare_screen.dart';
+import 'color_memory/color_memory_screen.dart';
 import 'color_training/odd_one_out_screen.dart';
 import 'color_zoom/color_zoom_screen.dart';
 import 'length_training/length_compare_screen.dart';
@@ -69,6 +70,14 @@ const features = [
     icon: Icons.colorize_outlined,
     issueNumber: 1,
     builder: _oddOneOut,
+  ),
+  Feature(
+    title: '色おぼえ',
+    category: FeatureCategory.visual,
+    subtitle: 'さっきの色はどれ?',
+    icon: Icons.visibility_outlined,
+    issueNumber: 13,
+    builder: _colorMemory,
   ),
   Feature(
     title: '長さくらべ',
@@ -147,6 +156,8 @@ const features = [
 Widget _colorZoom(BuildContext context) => const ColorZoomScreen();
 
 Widget _oddOneOut(BuildContext context) => const OddOneOutScreen();
+
+Widget _colorMemory(BuildContext context) => const ColorMemoryScreen();
 
 Widget _lengthCompare(BuildContext context) => const LengthCompareScreen();
 
