@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import '../../core/color/ciede2000.dart';
 import '../../core/color/lab.dart';
+import '../../core/training/staircase.dart';
 
 /// 「1つだけ違う色」の1問。
 class OddOneOutTrial {
@@ -89,35 +90,37 @@ OddOneOutTrial generateTrial({
 /// 1 セッション。正解で色差を狭め、不正解で広げる (階段法)。
 class OddOneOutSession {
   OddOneOutSession({
-    this.trialCount = 12,
+    int trialCount = 12,
     this.tileCount = 16,
     double startDeltaE = 16,
     Random? random,
-  })  : _deltaE = startDeltaE,
+  })  : _staircase = Staircase(
+          start: startDeltaE,
+          min: 0.2,
+          max: 40,
+          trialCount: trialCount,
+        ),
         _random = random ?? Random() {
     _next();
   }
 
-  static const double minDeltaE = 0.2;
-  static const double maxDeltaE = 40;
-
-  final int trialCount;
   final int tileCount;
   final Random _random;
+  final Staircase _staircase;
 
-  double _deltaE;
   OddOneOutTrial? _trial;
-  final List<({double deltaE, bool correct})> results = [];
 
   OddOneOutTrial? get trial => _trial;
-  int get answered => results.length;
-  bool get isFinished => results.length >= trialCount;
+  int get trialCount => _staircase.trialCount;
+  int get answered => _staircase.answered;
+  bool get isFinished => _staircase.isFinished;
+  int get correctCount => _staircase.correctCount;
 
   void _next() {
     _trial = isFinished
         ? null
         : generateTrial(
-            deltaE: _deltaE, tileCount: tileCount, random: _random);
+            deltaE: _staircase.value, tileCount: tileCount, random: _random);
   }
 
   /// タイル [index] を選んだ。正解なら true。
@@ -125,25 +128,13 @@ class OddOneOutSession {
     final trial = _trial;
     if (trial == null) throw StateError('セッションは終了している');
     final correct = index == trial.oddIndex;
-    results.add((deltaE: trial.actualDeltaE, correct: correct));
-    _deltaE = (correct ? _deltaE * 0.7 : _deltaE * 1.6)
-        .clamp(minDeltaE, maxDeltaE);
+    _staircase.record(presented: trial.actualDeltaE, correct: correct);
     _next();
     return correct;
   }
 
   /// 識別閾値の推定値。終盤の試行の幾何平均。
-  double get threshold {
-    final tail = results.length <= 5
-        ? results
-        : results.sublist(results.length - 5);
-    if (tail.isEmpty) return double.nan;
-    var logSum = 0.0;
-    for (final r in tail) {
-      logSum += log(r.deltaE);
-    }
-    return exp(logSum / tail.length);
-  }
+  double get threshold => _staircase.threshold();
 }
 
 /// 閾値の評価コメント。

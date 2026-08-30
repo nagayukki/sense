@@ -120,7 +120,7 @@ class _ResultView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final threshold = session.threshold;
-    final correctCount = session.results.where((r) => r.correct).length;
+    final correctCount = session.correctCount;
     return Padding(
       padding: const EdgeInsets.all(24),
       child: Column(
