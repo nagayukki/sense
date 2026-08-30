@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'color_training/odd_one_out_screen.dart';
 import 'color_zoom/color_zoom_screen.dart';
 import 'placeholder/placeholder_screen.dart';
 
@@ -43,6 +44,7 @@ const features = [
     subtitle: '微妙な色の違いを見分ける',
     icon: Icons.colorize_outlined,
     issueNumber: 1,
+    builder: _oddOneOut,
   ),
   Feature(
     title: '長さのトレーニング',
@@ -65,3 +67,5 @@ const features = [
 ];
 
 Widget _colorZoom(BuildContext context) => const ColorZoomScreen();
+
+Widget _oddOneOut(BuildContext context) => const OddOneOutScreen();
