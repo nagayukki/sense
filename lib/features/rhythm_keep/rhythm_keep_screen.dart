@@ -5,6 +5,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/audio/click_sequence.dart';
+import '../../core/history/score_history.dart';
 import 'rhythm_keep.dart';
 
 enum _Phase { ready, guide, tapping, result }
@@ -88,6 +89,8 @@ class _RhythmKeepScreenState extends State<RhythmKeepScreen> {
         );
         phase = _Phase.result;
       });
+      ScoreHistory.instance
+          .add(GameId.rhythmKeep, result!.meanAbsDeviationPercent);
     }
   }
 

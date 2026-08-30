@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/history/score_history.dart';
 import '../common/training_widgets.dart';
 import 'time_compare.dart';
 
@@ -60,6 +61,9 @@ class _TimeCompareScreenState extends State<TimeCompareScreen> {
       lastCorrect = session.answer(choseA: choseA);
       played = false;
     });
+    if (session.isFinished) {
+      ScoreHistory.instance.add(GameId.time, session.threshold);
+    }
     _playBoth();
   }
 

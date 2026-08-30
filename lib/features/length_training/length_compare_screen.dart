@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import '../../core/history/score_history.dart';
 import '../common/training_widgets.dart';
 import 'length_compare.dart';
 
@@ -34,6 +35,9 @@ class _LengthCompareScreenState extends State<LengthCompareScreen> {
     setState(() {
       lastCorrect = session.answer(choseA: choseA);
     });
+    if (session.isFinished) {
+      ScoreHistory.instance.add(GameId.length, session.threshold);
+    }
   }
 
   @override

@@ -13,6 +13,17 @@ import 'rhythm_keep/rhythm_keep_screen.dart';
 import 'tempo_training/tempo_compare_screen.dart';
 import 'time_training/time_compare_screen.dart';
 
+enum FeatureCategory {
+  visual('視覚'),
+  hearing('聴覚'),
+  other('じかん・かず'),
+  tool('ツール');
+
+  const FeatureCategory(this.label);
+
+  final String label;
+}
+
 /// ホームに並ぶ機能の定義。追加する機能はここに足す。
 class Feature {
   const Feature({
@@ -20,6 +31,7 @@ class Feature {
     required this.subtitle,
     required this.icon,
     required this.issueNumber,
+    required this.category,
     this.builder,
   });
 
@@ -27,6 +39,7 @@ class Feature {
   final String subtitle;
   final IconData icon;
   final int issueNumber;
+  final FeatureCategory category;
 
   /// null の場合は未実装 (プレースホルダ画面を開く)。
   final WidgetBuilder? builder;
@@ -43,6 +56,7 @@ class Feature {
 const features = [
   Feature(
     title: '色見本',
+    category: FeatureCategory.tool,
     subtitle: 'タップで広がる 1,677万色',
     icon: Icons.palette_outlined,
     issueNumber: 5,
@@ -50,6 +64,7 @@ const features = [
   ),
   Feature(
     title: '色くらべ',
+    category: FeatureCategory.visual,
     subtitle: 'ひとつだけ違う色をさがす',
     icon: Icons.colorize_outlined,
     issueNumber: 1,
@@ -57,6 +72,7 @@ const features = [
   ),
   Feature(
     title: '長さくらべ',
+    category: FeatureCategory.visual,
     subtitle: 'どっちが長い?',
     icon: Icons.straighten_outlined,
     issueNumber: 2,
@@ -64,6 +80,7 @@ const features = [
   ),
   Feature(
     title: '面積くらべ',
+    category: FeatureCategory.visual,
     subtitle: '形がちがっても広さでくらべる',
     icon: Icons.crop_square_outlined,
     issueNumber: 3,
@@ -71,6 +88,7 @@ const features = [
   ),
   Feature(
     title: '角度くらべ',
+    category: FeatureCategory.visual,
     subtitle: 'どっちが開いてる?',
     icon: Icons.architecture_outlined,
     issueNumber: 4,
@@ -78,6 +96,7 @@ const features = [
   ),
   Feature(
     title: '音の高さくらべ',
+    category: FeatureCategory.hearing,
     subtitle: '楽器がちがっても高さでくらべる',
     icon: Icons.music_note_outlined,
     issueNumber: 6,
@@ -85,6 +104,7 @@ const features = [
   ),
   Feature(
     title: '音名当て',
+    category: FeatureCategory.hearing,
     subtitle: 'この音はドレミのどれ?',
     icon: Icons.piano_outlined,
     issueNumber: 7,
@@ -92,6 +112,7 @@ const features = [
   ),
   Feature(
     title: 'テンポくらべ',
+    category: FeatureCategory.hearing,
     subtitle: 'どっちが速い?',
     icon: Icons.speed_outlined,
     issueNumber: 11,
@@ -99,6 +120,7 @@ const features = [
   ),
   Feature(
     title: 'リズムキープ',
+    category: FeatureCategory.hearing,
     subtitle: '音が消えてもテンポを保てる?',
     icon: Icons.touch_app_outlined,
     issueNumber: 11,
@@ -106,6 +128,7 @@ const features = [
   ),
   Feature(
     title: '時間くらべ',
+    category: FeatureCategory.other,
     subtitle: 'どっちが長かった?',
     icon: Icons.timer_outlined,
     issueNumber: 8,
@@ -113,6 +136,7 @@ const features = [
   ),
   Feature(
     title: 'かずくらべ',
+    category: FeatureCategory.other,
     subtitle: 'どっちが多い?',
     icon: Icons.grain_outlined,
     issueNumber: 9,

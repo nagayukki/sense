@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/audio/tone_synth.dart';
+import '../../core/history/score_history.dart';
 import '../common/training_widgets.dart';
 import 'pitch_compare.dart';
 
@@ -65,6 +66,9 @@ class _PitchCompareScreenState extends State<PitchCompareScreen> {
     setState(() {
       lastCorrect = session.answer(choseA: choseA);
     });
+    if (session.isFinished) {
+      ScoreHistory.instance.add(GameId.pitch, session.threshold);
+    }
     _playBoth();
   }
 

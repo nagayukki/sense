@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/history/score_history.dart';
 import '../common/training_widgets.dart';
 import 'numerosity_compare.dart';
 
@@ -47,6 +48,9 @@ class _NumerosityCompareScreenState extends State<NumerosityCompareScreen> {
     setState(() {
       lastCorrect = session.answer(choseA: choseA);
     });
+    if (session.isFinished) {
+      ScoreHistory.instance.add(GameId.numerosity, session.threshold);
+    }
     _flash();
   }
 

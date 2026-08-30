@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/audio/click_sequence.dart';
+import '../../core/history/score_history.dart';
 import '../common/training_widgets.dart';
 import 'tempo_compare.dart';
 
@@ -67,6 +68,9 @@ class _TempoCompareScreenState extends State<TempoCompareScreen> {
     setState(() {
       lastCorrect = session.answer(choseA: choseA);
     });
+    if (session.isFinished) {
+      ScoreHistory.instance.add(GameId.tempo, session.threshold);
+    }
     _playBoth();
   }
 

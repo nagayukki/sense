@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/audio/tone_synth.dart';
+import '../../core/history/score_history.dart';
 import '../common/training_widgets.dart';
 import 'note_quiz.dart';
 
@@ -66,6 +67,10 @@ class _NoteQuizScreenState extends State<NoteQuizScreen> {
       lastAnswerName = q.answerName;
       lastCorrect = session.answer(pitchClass);
     });
+    if (session.isFinished) {
+      ScoreHistory.instance
+          .add(GameId.noteQuiz, session.correctCount.toDouble());
+    }
     _playQuestion();
   }
 

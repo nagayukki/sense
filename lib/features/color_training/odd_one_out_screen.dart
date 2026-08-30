@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/history/score_history.dart';
 import '../common/training_widgets.dart';
 import 'odd_one_out.dart';
 
@@ -66,9 +67,15 @@ class _OddOneOutScreenState extends State<OddOneOutScreen> {
                             children: [
                               for (var i = 0; i < session.tileCount; i++)
                                 GestureDetector(
-                                  onTap: () => setState(() {
-                                    lastCorrect = session.answer(i);
-                                  }),
+                                  onTap: () {
+                                    setState(() {
+                                      lastCorrect = session.answer(i);
+                                    });
+                                    if (session.isFinished) {
+                                      ScoreHistory.instance.add(
+                                          GameId.colorOdd, session.threshold);
+                                    }
+                                  },
                                   child: DecoratedBox(
                                     decoration: BoxDecoration(
                                       color: i == trial.oddIndex
