@@ -6,6 +6,7 @@ import 'color_maker/color_maker_screen.dart';
 import 'color_memory/color_memory_screen.dart';
 import 'color_training/odd_one_out_screen.dart';
 import 'color_zoom/color_zoom_screen.dart';
+import 'color_zoom_lab/color_zoom_lab_screen.dart';
 import 'length_training/length_compare_screen.dart';
 import 'pitch_training/pitch_compare_screen.dart';
 import 'note_quiz/note_quiz_screen.dart';
@@ -63,6 +64,14 @@ const features = [
     icon: Icons.palette_outlined,
     issueNumber: 5,
     builder: _colorZoom,
+  ),
+  Feature(
+    title: '色見本ラボ',
+    category: FeatureCategory.tool,
+    subtitle: '見せ方の案B/C/Dをくらべる',
+    icon: Icons.science_outlined,
+    issueNumber: 5,
+    builder: _colorZoomLab,
   ),
   Feature(
     title: '色くらべ',
@@ -163,6 +172,8 @@ const features = [
 ];
 
 Widget _colorZoom(BuildContext context) => const ColorZoomScreen();
+
+Widget _colorZoomLab(BuildContext context) => const ColorZoomLabScreen();
 
 Widget _oddOneOut(BuildContext context) => const OddOneOutScreen();
 
