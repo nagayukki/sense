@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../core/color/nearest_name.dart';
 import 'color_zoom_state.dart';
 
 /// ズーム型色見本 (Issue #5)。
@@ -238,8 +239,61 @@ class _FinalColorView extends StatelessWidget {
             textAlign: TextAlign.center,
             style: theme.textTheme.bodyMedium,
           ),
+          const SizedBox(height: 16),
+          _NearestNames(color: color),
         ],
       ),
+    );
+  }
+}
+
+/// 最寄りの色名 (ランドマーク) を色差つきで表示する。
+class _NearestNames extends StatelessWidget {
+  const _NearestNames({required this.color});
+
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final names = nearestNames(color);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text('近い色の名前', style: theme.textTheme.labelMedium),
+        const SizedBox(height: 4),
+        for (final n in names)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Row(
+              children: [
+                Container(
+                  width: 24,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    color: Color(0xFF000000 | n.color.rgb),
+                    borderRadius: BorderRadius.circular(6),
+                    border:
+                        Border.all(color: theme.colorScheme.outlineVariant),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    n.color.reading == n.color.name
+                        ? n.color.name
+                        : '${n.color.name} (${n.color.reading})',
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Text(
+                  'ΔE ${n.deltaE.toStringAsFixed(1)}',
+                  style: theme.textTheme.bodySmall,
+                ),
+              ],
+            ),
+          ),
+      ],
     );
   }
 }
