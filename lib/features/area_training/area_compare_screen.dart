@@ -3,29 +3,29 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import '../common/training_widgets.dart';
-import 'length_compare.dart';
+import 'area_compare.dart';
 
-/// 長さのトレーニング: どちらが長いか (Issue #2)。
-class LengthCompareScreen extends StatefulWidget {
-  const LengthCompareScreen({super.key});
+/// 面積のトレーニング: どちらが広いか (Issue #3)。
+class AreaCompareScreen extends StatefulWidget {
+  const AreaCompareScreen({super.key});
 
   @override
-  State<LengthCompareScreen> createState() => _LengthCompareScreenState();
+  State<AreaCompareScreen> createState() => _AreaCompareScreenState();
 }
 
-class _LengthCompareScreenState extends State<LengthCompareScreen> {
-  late LengthSession session;
+class _AreaCompareScreenState extends State<AreaCompareScreen> {
+  late AreaSession session;
   bool? lastCorrect;
 
   @override
   void initState() {
     super.initState();
-    session = LengthSession();
+    session = AreaSession();
   }
 
   void _restart() {
     setState(() {
-      session = LengthSession();
+      session = AreaSession();
       lastCorrect = null;
     });
   }
@@ -41,13 +41,13 @@ class _LengthCompareScreenState extends State<LengthCompareScreen> {
     final theme = Theme.of(context);
     final trial = session.trial;
     return Scaffold(
-      appBar: AppBar(title: const Text('長さのトレーニング')),
+      appBar: AppBar(title: const Text('面積のトレーニング')),
       body: SafeArea(
         child: trial == null
             ? TrainingResultView(
                 title: '見分けられた最小の差',
                 valueText: '${session.threshold.toStringAsFixed(1)} %',
-                rating: lengthRating(session.threshold),
+                rating: areaRating(session.threshold),
                 correctCount: session.correctCount,
                 trialCount: session.trialCount,
                 onRestart: _restart,
@@ -65,10 +65,11 @@ class _LengthCompareScreenState extends State<LengthCompareScreen> {
                       label: 'A',
                       onTap: () => _answer(true),
                       child: CustomPaint(
-                        painter: _LinePainter(
-                          length: trial.lengthA,
-                          angle: trial.angleA,
-                          color: Theme.of(context).colorScheme.onSurface,
+                        painter: _ShapePainter(
+                          shape: trial.shapeA,
+                          area: trial.areaA,
+                          aspect: trial.aspectA,
+                          color: theme.colorScheme.primary,
                         ),
                       ),
                     ),
@@ -78,10 +79,11 @@ class _LengthCompareScreenState extends State<LengthCompareScreen> {
                       label: 'B',
                       onTap: () => _answer(false),
                       child: CustomPaint(
-                        painter: _LinePainter(
-                          length: trial.lengthB,
-                          angle: trial.angleB,
-                          color: Theme.of(context).colorScheme.onSurface,
+                        painter: _ShapePainter(
+                          shape: trial.shapeB,
+                          area: trial.areaB,
+                          aspect: trial.aspectB,
+                          color: theme.colorScheme.primary,
                         ),
                       ),
                     ),
@@ -89,7 +91,7 @@ class _LengthCompareScreenState extends State<LengthCompareScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     child: Text(
-                      '長い方をタップ',
+                      '広い方をタップ (形が違っても面積で)',
                       textAlign: TextAlign.center,
                       style: theme.textTheme.bodySmall,
                     ),
@@ -101,32 +103,45 @@ class _LengthCompareScreenState extends State<LengthCompareScreen> {
   }
 }
 
-class _LinePainter extends CustomPainter {
-  const _LinePainter({
-    required this.length,
-    required this.angle,
+class _ShapePainter extends CustomPainter {
+  const _ShapePainter({
+    required this.shape,
+    required this.area,
+    required this.aspect,
     required this.color,
   });
 
-  final double length;
-  final double angle;
+  final AreaShape shape;
+
+  /// カードの短辺を 1 とした相対面積。
+  final double area;
+  final double aspect;
   final Color color;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color
-      ..strokeWidth = 4
-      ..strokeCap = StrokeCap.round;
+    final paint = Paint()..color = color;
+    final unit = size.shortestSide;
     final center = size.center(Offset.zero);
-    // 傾けても収まるよう、カードの幅を基準に長さを決める
-    final half = length * size.width * 0.45;
-    final delta = Offset(cos(angle), sin(angle)) * half;
-    canvas.drawLine(center - delta, center + delta, paint);
+    switch (shape) {
+      case AreaShape.circle:
+        canvas.drawCircle(center, sqrt(area / pi) * unit, paint);
+      case AreaShape.square:
+        final side = sqrt(area) * unit;
+        canvas.drawRect(
+            Rect.fromCenter(center: center, width: side, height: side), paint);
+      case AreaShape.rect:
+        final w = sqrt(area * aspect) * unit;
+        final h = sqrt(area / aspect) * unit;
+        canvas.drawRect(
+            Rect.fromCenter(center: center, width: w, height: h), paint);
+    }
   }
 
   @override
-  bool shouldRepaint(_LinePainter old) =>
-      old.length != length || old.angle != angle || old.color != color;
+  bool shouldRepaint(_ShapePainter old) =>
+      old.shape != shape ||
+      old.area != area ||
+      old.aspect != aspect ||
+      old.color != color;
 }
-

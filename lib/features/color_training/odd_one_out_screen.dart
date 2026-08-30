@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../common/training_widgets.dart';
 import 'odd_one_out.dart';
 
 /// 色のトレーニング: 1つだけ違う色を探す (Issue #1)。
@@ -35,33 +36,21 @@ class _OddOneOutScreenState extends State<OddOneOutScreen> {
       appBar: AppBar(title: const Text('色のトレーニング')),
       body: SafeArea(
         child: trial == null
-            ? _ResultView(session: session, onRestart: _restart)
+            ? TrainingResultView(
+                title: 'あなたの識別閾値',
+                valueText: 'ΔE ${session.threshold.toStringAsFixed(1)}',
+                rating: thresholdRating(session.threshold),
+                correctCount: session.correctCount,
+                trialCount: session.trialCount,
+                onRestart: _restart,
+              )
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
-                    child: Row(
-                      children: [
-                        Text('${session.answered + 1} / ${session.trialCount}',
-                            style: theme.textTheme.titleSmall),
-                        const Spacer(),
-                        if (lastCorrect != null)
-                          Icon(
-                            lastCorrect! ? Icons.check_circle : Icons.cancel,
-                            size: 20,
-                            color: lastCorrect!
-                                ? Colors.green
-                                : theme.colorScheme.error,
-                          ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: LinearProgressIndicator(
-                      value: session.answered / session.trialCount,
-                    ),
+                  TrainingProgressHeader(
+                    answered: session.answered,
+                    trialCount: session.trialCount,
+                    lastCorrect: lastCorrect,
                   ),
                   Expanded(
                     child: Center(
@@ -110,51 +99,3 @@ class _OddOneOutScreenState extends State<OddOneOutScreen> {
   }
 }
 
-class _ResultView extends StatelessWidget {
-  const _ResultView({required this.session, required this.onRestart});
-
-  final OddOneOutSession session;
-  final VoidCallback onRestart;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final threshold = session.threshold;
-    final correctCount = session.correctCount;
-    return Padding(
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text('あなたの識別閾値',
-              textAlign: TextAlign.center, style: theme.textTheme.titleMedium),
-          const SizedBox(height: 8),
-          Text(
-            'ΔE ${threshold.toStringAsFixed(1)}',
-            textAlign: TextAlign.center,
-            style: theme.textTheme.displaySmall,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            thresholdRating(threshold),
-            textAlign: TextAlign.center,
-            style: theme.textTheme.bodyMedium,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            '正解 $correctCount / ${session.trialCount}',
-            textAlign: TextAlign.center,
-            style: theme.textTheme.bodySmall,
-          ),
-          const SizedBox(height: 32),
-          FilledButton.icon(
-            onPressed: onRestart,
-            icon: const Icon(Icons.refresh),
-            label: const Text('もう一度'),
-          ),
-        ],
-      ),
-    );
-  }
-}

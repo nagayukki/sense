@@ -3,29 +3,29 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import '../common/training_widgets.dart';
-import 'length_compare.dart';
+import 'angle_compare.dart';
 
-/// 長さのトレーニング: どちらが長いか (Issue #2)。
-class LengthCompareScreen extends StatefulWidget {
-  const LengthCompareScreen({super.key});
+/// 角度のトレーニング: どちらが開いているか (Issue #4)。
+class AngleCompareScreen extends StatefulWidget {
+  const AngleCompareScreen({super.key});
 
   @override
-  State<LengthCompareScreen> createState() => _LengthCompareScreenState();
+  State<AngleCompareScreen> createState() => _AngleCompareScreenState();
 }
 
-class _LengthCompareScreenState extends State<LengthCompareScreen> {
-  late LengthSession session;
+class _AngleCompareScreenState extends State<AngleCompareScreen> {
+  late AngleSession session;
   bool? lastCorrect;
 
   @override
   void initState() {
     super.initState();
-    session = LengthSession();
+    session = AngleSession();
   }
 
   void _restart() {
     setState(() {
-      session = LengthSession();
+      session = AngleSession();
       lastCorrect = null;
     });
   }
@@ -41,13 +41,13 @@ class _LengthCompareScreenState extends State<LengthCompareScreen> {
     final theme = Theme.of(context);
     final trial = session.trial;
     return Scaffold(
-      appBar: AppBar(title: const Text('長さのトレーニング')),
+      appBar: AppBar(title: const Text('角度のトレーニング')),
       body: SafeArea(
         child: trial == null
             ? TrainingResultView(
                 title: '見分けられた最小の差',
-                valueText: '${session.threshold.toStringAsFixed(1)} %',
-                rating: lengthRating(session.threshold),
+                valueText: '${session.threshold.toStringAsFixed(1)}°',
+                rating: angleRating(session.threshold),
                 correctCount: session.correctCount,
                 trialCount: session.trialCount,
                 onRestart: _restart,
@@ -65,10 +65,10 @@ class _LengthCompareScreenState extends State<LengthCompareScreen> {
                       label: 'A',
                       onTap: () => _answer(true),
                       child: CustomPaint(
-                        painter: _LinePainter(
-                          length: trial.lengthA,
-                          angle: trial.angleA,
-                          color: Theme.of(context).colorScheme.onSurface,
+                        painter: _AnglePainter(
+                          degrees: trial.angleA,
+                          rotation: trial.rotationA,
+                          color: theme.colorScheme.onSurface,
                         ),
                       ),
                     ),
@@ -78,10 +78,10 @@ class _LengthCompareScreenState extends State<LengthCompareScreen> {
                       label: 'B',
                       onTap: () => _answer(false),
                       child: CustomPaint(
-                        painter: _LinePainter(
-                          length: trial.lengthB,
-                          angle: trial.angleB,
-                          color: Theme.of(context).colorScheme.onSurface,
+                        painter: _AnglePainter(
+                          degrees: trial.angleB,
+                          rotation: trial.rotationB,
+                          color: theme.colorScheme.onSurface,
                         ),
                       ),
                     ),
@@ -89,7 +89,7 @@ class _LengthCompareScreenState extends State<LengthCompareScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     child: Text(
-                      '長い方をタップ',
+                      '開きが大きい方をタップ',
                       textAlign: TextAlign.center,
                       style: theme.textTheme.bodySmall,
                     ),
@@ -101,15 +101,15 @@ class _LengthCompareScreenState extends State<LengthCompareScreen> {
   }
 }
 
-class _LinePainter extends CustomPainter {
-  const _LinePainter({
-    required this.length,
-    required this.angle,
+class _AnglePainter extends CustomPainter {
+  const _AnglePainter({
+    required this.degrees,
+    required this.rotation,
     required this.color,
   });
 
-  final double length;
-  final double angle;
+  final double degrees;
+  final double rotation;
   final Color color;
 
   @override
@@ -117,16 +117,26 @@ class _LinePainter extends CustomPainter {
     final paint = Paint()
       ..color = color
       ..strokeWidth = 4
-      ..strokeCap = StrokeCap.round;
+      ..strokeCap = StrokeCap.round
+      ..style = PaintingStyle.stroke;
     final center = size.center(Offset.zero);
-    // 傾けても収まるよう、カードの幅を基準に長さを決める
-    final half = length * size.width * 0.45;
-    final delta = Offset(cos(angle), sin(angle)) * half;
-    canvas.drawLine(center - delta, center + delta, paint);
+    final len = size.shortestSide * 0.38;
+    final half = degrees * pi / 180 / 2;
+    final d1 = Offset(cos(rotation - half), sin(rotation - half));
+    final d2 = Offset(cos(rotation + half), sin(rotation + half));
+    canvas.drawLine(center, center + d1 * len, paint);
+    canvas.drawLine(center, center + d2 * len, paint);
+    // 開きを示す小さな弧
+    canvas.drawArc(
+      Rect.fromCircle(center: center, radius: len * 0.3),
+      rotation - half,
+      degrees * pi / 180,
+      false,
+      paint..strokeWidth = 2,
+    );
   }
 
   @override
-  bool shouldRepaint(_LinePainter old) =>
-      old.length != length || old.angle != angle || old.color != color;
+  bool shouldRepaint(_AnglePainter old) =>
+      old.degrees != degrees || old.rotation != rotation || old.color != color;
 }
-
