@@ -6,6 +6,7 @@ import 'color_training/odd_one_out_screen.dart';
 import 'color_zoom/color_zoom_screen.dart';
 import 'length_training/length_compare_screen.dart';
 import 'pitch_training/pitch_compare_screen.dart';
+import 'numerosity_training/numerosity_compare_screen.dart';
 import 'placeholder/placeholder_screen.dart';
 import 'time_training/time_compare_screen.dart';
 
@@ -97,6 +98,7 @@ const features = [
     subtitle: 'どちらが多いかを一瞬で',
     icon: Icons.grain_outlined,
     issueNumber: 9,
+    builder: _numerosityCompare,
   ),
 ];
 
@@ -113,3 +115,6 @@ Widget _angleCompare(BuildContext context) => const AngleCompareScreen();
 Widget _pitchCompare(BuildContext context) => const PitchCompareScreen();
 
 Widget _timeCompare(BuildContext context) => const TimeCompareScreen();
+
+Widget _numerosityCompare(BuildContext context) =>
+    const NumerosityCompareScreen();
