@@ -7,6 +7,7 @@ import 'color_zoom/color_zoom_screen.dart';
 import 'length_training/length_compare_screen.dart';
 import 'pitch_training/pitch_compare_screen.dart';
 import 'placeholder/placeholder_screen.dart';
+import 'time_training/time_compare_screen.dart';
 
 /// ホームに並ぶ機能の定義。追加する機能はここに足す。
 class Feature {
@@ -89,6 +90,7 @@ const features = [
     subtitle: 'どちらが長かったかを見抜く',
     icon: Icons.timer_outlined,
     issueNumber: 8,
+    builder: _timeCompare,
   ),
   Feature(
     title: '数量感覚のトレーニング',
@@ -109,3 +111,5 @@ Widget _areaCompare(BuildContext context) => const AreaCompareScreen();
 Widget _angleCompare(BuildContext context) => const AngleCompareScreen();
 
 Widget _pitchCompare(BuildContext context) => const PitchCompareScreen();
+
+Widget _timeCompare(BuildContext context) => const TimeCompareScreen();
